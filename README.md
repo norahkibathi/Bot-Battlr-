@@ -15,6 +15,7 @@ Responsive design ensures a smooth user experience across different devices.
 
 
 **Project Structure**
+
 App.js: This serves as the main component, integrating both the BotCollection and BotArmy components.
 
 AllBot.js: Responsible for displaying the collection of available bots.
