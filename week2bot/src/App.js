@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import AllBots from "./components/AllBots";
+import BotArmy from "./components/BotArmy";
+import "./App.css";
 
 function App() {
+  const [bots, setBots] = useState([]);
+  const [enlistedBots, setEnlistedBots] = useState([]); 
+
+  useEffect(() => {
+    // Fetch data from the API
+    fetch('http://localhost:3000/bots')
+    .then((resp) => resp.json())
+    .then((data) => setBots(data))
+    .catch((error) => console.error('Error fetching data:', error));
+}, []);
+//setting the constant and JS arrowfunction helps in the implementation of the code needed to relaase bots from the army
+const releaseFromArmy = (updatedEnlistedBots) => {
+  //  
+  setEnlistedBots(updatedEnlistedBots);
+};
+
+function handleBotDischarge(bot) {
+  // setting the const enables meeting the requirement of removing the bots from the front end 
+  const updatedEnlistedBots = enlistedBots.filter((enlistedBot) => enlistedBot.id !== bot.id);
+  setEnlistedBots(updatedEnlistedBots);
+}
+ 
+
   return (
+
+  <>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <BotArmy 
+        enlistedBots={enlistedBots} 
+        releaseFromYourBotArmy={releaseFromArmy}/>
+
+      <AllBots
+       bots={bots} 
+       enlistedBots={enlistedBots} 
+       setEnlistedBots={setEnlistedBots}
+       handleBotDischarge={handleBotDischarge}
+      />
+      
     </div>
+    </>
   );
 }
-
-export default App;
+export default App
